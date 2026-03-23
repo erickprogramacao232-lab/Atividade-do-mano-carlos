@@ -167,8 +167,7 @@
   </style>
   <style>body { box-sizing: border-box; }</style>
  </head>
- <body class="h-full w-full">
-  <!-- Login -->
+ <body class="h-full w-full"><!-- Login -->
   <div id="loginScreen" class="h-full w-full flex items-center justify-center">
    <div class="w-full max-w-md mx-auto px-6">
     <div class="text-center mb-12 fade-in-up">
@@ -179,17 +178,14 @@
      <p class="text-gray-400">Transforme seus hábitos em 7 dias</p>
     </div>
     <form id="loginForm" class="space-y-4 fade-in-up" style="animation-delay: 0.1s;">
-     <div>
-      <label class="text-sm font-semibold mb-2 block text-gray-300">Nome</label> <input type="text" id="loginName" class="input-field" placeholder="Seu nome completo" required>
+     <div><label class="text-sm font-semibold mb-2 block text-gray-300">Nome</label> <input type="text" id="loginName" class="input-field" placeholder="Seu nome completo" required>
      </div>
-     <div>
-      <label class="text-sm font-semibold mb-2 block text-gray-300">Email</label> <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
+     <div><label class="text-sm font-semibold mb-2 block text-gray-300">Email</label> <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
      </div><button type="submit" class="w-full btn btn-primary mt-6"><i data-lucide="arrow-right" style="width: 18px; height: 18px; margin-right: 8px;"></i> Começar Gratuitamente</button>
     </form>
    </div>
   </div><!-- App -->
-  <div id="app" class="h-full w-full flex flex-col hidden">
-   <!-- Header -->
+  <div id="app" class="h-full w-full flex flex-col hidden"><!-- Header -->
    <header class="w-full border-b border-blue-500/10 sticky top-0 z-40 backdrop-blur-xl bg-slate-950/50">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
      <div class="flex items-center gap-3">
@@ -197,20 +193,16 @@
        M
       </div><span class="text-xl font-black" id="appTitle">moovi</span>
      </div><!-- Nav Desktop -->
-     <nav class="hidden md:flex items-center gap-2">
-      <button onclick="switchNav('dashboard')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav"> <i data-lucide="home" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Dashboard </button> <button onclick="switchNav('stats')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="bar-chart-3" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Estatísticas </button> <button onclick="switchNav('metas')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="target" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Metas </button> <button onclick="switchNav('config')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="settings" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Config </button>
+     <nav class="hidden md:flex items-center gap-2"><button onclick="switchNav('dashboard')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav"> <i data-lucide="home" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Dashboard </button> <button onclick="switchNav('stats')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="bar-chart-3" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Estatísticas </button> <button onclick="switchNav('metas')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="target" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Metas </button> <button onclick="switchNav('config')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="settings" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Config </button>
      </nav><!-- Mobile Menu --> <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition"> <i data-lucide="menu" style="width: 20px; height: 20px;"></i> </button> <!-- Actions -->
-     <div class="flex items-center gap-2">
-      <button id="addHabitBtn" class="btn btn-primary btn-small hidden sm:flex"><i data-lucide="plus" style="width: 16px; height: 16px; margin-right: 6px;"></i> Novo</button> <button id="addHabitBtnMobile" class="btn btn-primary btn-small sm:hidden p-2"><i data-lucide="plus" style="width: 16px; height: 16px;"></i></button> <button id="logoutBtn" class="p-2 hover:bg-white/10 rounded-lg transition"><i data-lucide="log-out" style="width: 20px; height: 20px;"></i></button>
+     <div class="flex items-center gap-2"><button id="addHabitBtn" class="btn btn-primary btn-small hidden sm:flex"><i data-lucide="plus" style="width: 16px; height: 16px; margin-right: 6px;"></i> Novo</button> <button id="addHabitBtnMobile" class="btn btn-primary btn-small sm:hidden p-2"><i data-lucide="plus" style="width: 16px; height: 16px;"></i></button> <button id="logoutBtn" class="p-2 hover:bg-white/10 rounded-lg transition"><i data-lucide="log-out" style="width: 20px; height: 20px;"></i></button>
      </div>
     </div><!-- Mobile Nav -->
-    <div id="mobileNav" class="hidden md:hidden border-t border-blue-500/10 bg-slate-900/50 backdrop-blur px-6 py-3 flex flex-col gap-2">
-     <button onclick="switchNav('dashboard')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav">Dashboard</button> <button onclick="switchNav('stats')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Estatísticas</button> <button onclick="switchNav('metas')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Metas</button> <button onclick="switchNav('config')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Configurações</button>
+    <div id="mobileNav" class="hidden md:hidden border-t border-blue-500/10 bg-slate-900/50 backdrop-blur px-6 py-3 flex flex-col gap-2"><button onclick="switchNav('dashboard')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav">Dashboard</button> <button onclick="switchNav('stats')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Estatísticas</button> <button onclick="switchNav('metas')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Metas</button> <button onclick="switchNav('config')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Configurações</button>
     </div>
    </header><!-- Main -->
    <main class="flex-1 overflow-y-auto w-full">
-    <div class="max-w-6xl mx-auto px-6 py-8">
-     <!-- Dashboard -->
+    <div class="max-w-6xl mx-auto px-6 py-8"><!-- Dashboard -->
      <div id="dashboardSection" class="space-y-8">
       <div class="mb-10">
        <h1 class="text-4xl font-black mb-2" id="welcomeText">Bem-vindo! 👋</h1>
@@ -243,7 +235,8 @@
        </div>
       </div>
       <div class="mb-12">
-       <div class="flex items-center gap-2 mb-6"><i data-lucide="sparkles" style="width: 24px; height: 24px; color: #f59e0b;"></i>
+       <div class="flex items-center gap-2 mb-6">
+        <i data-lucide="sparkles" style="width: 24px; height: 24px; color: #f59e0b;"></i>
         <h2 class="text-2xl font-black">Recomendados</h2>
        </div>
        <div id="recommendedContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
@@ -281,17 +274,20 @@
        <div class="card">
         <h3 class="text-lg font-black mb-4">👤 Usuário</h3>
         <div class="space-y-3">
-         <div><label class="text-sm font-semibold text-gray-300">Nome</label>
+         <div>
+          <label class="text-sm font-semibold text-gray-300">Nome</label>
           <div class="text-white mt-1" id="configName">
            —
           </div>
          </div>
-         <div><label class="text-sm font-semibold text-gray-300">Email</label>
+         <div>
+          <label class="text-sm font-semibold text-gray-300">Email</label>
           <div class="text-white mt-1" id="configEmail">
            —
           </div>
          </div>
-         <div><label class="text-sm font-semibold text-gray-300">Membro desde</label>
+         <div>
+          <label class="text-sm font-semibold text-gray-300">Membro desde</label>
           <div class="text-white mt-1" id="configMemberSince">
            —
           </div>
@@ -310,16 +306,18 @@
    <div class="modal">
     <h2 class="text-2xl font-black mb-6">Novo Hábito</h2>
     <form id="habitForm" class="space-y-4">
-     <div><label class="text-sm font-semibold mb-2 block">Nome</label><input type="text" id="habitName" class="input-field" placeholder="Ex: Correr 5km..." required>
+     <div>
+      <label class="text-sm font-semibold mb-2 block">Nome</label><input type="text" id="habitName" class="input-field" placeholder="Ex: Correr 5km..." required>
      </div>
      <div class="grid grid-cols-2 gap-4">
-      <div><label class="text-sm font-semibold mb-2 block">Frequência</label><select id="habitFrequency" class="input-field" required><option value="daily">📅 Diário</option><option value="weekly">📆 Semanal</option></select>
+      <div>
+       <label class="text-sm font-semibold mb-2 block">Frequência</label><select id="habitFrequency" class="input-field" required><option value="daily">📅 Diário</option><option value="weekly">📆 Semanal</option></select>
       </div>
-      <div><label class="text-sm font-semibold mb-2 block">Categoria</label><select id="habitCategory" class="input-field" required><option value="health">❤️ Saúde</option><option value="learning">📚 Aprendizado</option><option value="productivity">⚡ Produtividade</option><option value="wellness">🧘 Bem-estar</option><option value="finance">💰 Finanças</option><option value="social">👥 Social</option></select>
+      <div>
+       <label class="text-sm font-semibold mb-2 block">Categoria</label><select id="habitCategory" class="input-field" required><option value="health">❤️ Saúde</option><option value="learning">📚 Aprendizado</option><option value="productivity">⚡ Produtividade</option><option value="wellness">🧘 Bem-estar</option><option value="finance">💰 Finanças</option><option value="social">👥 Social</option></select>
       </div>
      </div>
-     <div class="flex gap-3 pt-4">
-      <button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar</button> <button type="button" onclick="closeHabitModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+     <div class="flex gap-3 pt-4"><button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar</button> <button type="button" onclick="closeHabitModal()" class="flex-1 btn btn-secondary">Cancelar</button>
      </div>
     </form>
    </div>
@@ -328,8 +326,7 @@
    <div class="modal">
     <h2 class="text-2xl font-black mb-2">Deletar Hábito?</h2>
     <p class="text-gray-400 mb-6">Tem certeza? A ação não pode ser desfeita.</p>
-    <div class="flex gap-3">
-     <button onclick="confirmDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    <div class="flex gap-3"><button onclick="confirmDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
     </div>
    </div>
   </div>
@@ -337,8 +334,7 @@
    <div class="modal">
     <h2 class="text-2xl font-black mb-2 text-red-400">⚠️ Deletar Tudo?</h2>
     <p class="text-gray-400 mb-6">Deseja deletar TODOS os hábitos? Irreversível!</p>
-    <div class="flex gap-3">
-     <button onclick="confirmReset()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Sim, Deletar Todos</button> <button onclick="closeResetModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    <div class="flex gap-3"><button onclick="confirmReset()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Sim, Deletar Todos</button> <button onclick="closeResetModal()" class="flex-1 btn btn-secondary">Cancelar</button>
     </div>
    </div>
   </div>
@@ -346,14 +342,16 @@
    <div class="modal">
     <h2 class="text-2xl font-black mb-6">🎯 Nova Meta</h2>
     <form id="goalForm" class="space-y-4">
-     <div><label class="text-sm font-semibold mb-2 block">Nome da Meta</label><input type="text" id="goalName" class="input-field" placeholder="Ex: Ler 12 livros..." required>
+     <div>
+      <label class="text-sm font-semibold mb-2 block">Nome da Meta</label><input type="text" id="goalName" class="input-field" placeholder="Ex: Ler 12 livros..." required>
      </div>
-     <div><label class="text-sm font-semibold mb-2 block">Descrição</label><textarea id="goalDescription" class="input-field" placeholder="Detalhe sua meta..." rows="3" style="resize: none;"></textarea>
+     <div>
+      <label class="text-sm font-semibold mb-2 block">Descrição</label><textarea id="goalDescription" class="input-field" placeholder="Detalhe sua meta..." rows="3" style="resize: none;"></textarea>
      </div>
-     <div><label class="text-sm font-semibold mb-2 block">Data Alvo</label><input type="date" id="goalDate" class="input-field" required>
+     <div>
+      <label class="text-sm font-semibold mb-2 block">Data Alvo</label><input type="date" id="goalDate" class="input-field" required>
      </div>
-     <div class="flex gap-3 pt-4">
-      <button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar Meta</button> <button type="button" onclick="closeGoalModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+     <div class="flex gap-3 pt-4"><button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar Meta</button> <button type="button" onclick="closeGoalModal()" class="flex-1 btn btn-secondary">Cancelar</button>
      </div>
     </form>
    </div>
@@ -362,8 +360,7 @@
    <div class="modal">
     <h2 class="text-2xl font-black mb-2">Deletar Meta?</h2>
     <p class="text-gray-400 mb-6">Tem certeza que deseja deletar essa meta?</p>
-    <div class="flex gap-3">
-     <button onclick="confirmGoalDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeGoalDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    <div class="flex gap-3"><button onclick="confirmGoalDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeGoalDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
     </div>
    </div>
   </div>
@@ -670,7 +667,7 @@
               return `
                 <div class="habit-item ${done ? 'completed' : ''}">
                   <div class="flex items-start gap-4">
-                    <button onclick="completeHabit('${h.__backendId}')" class="mt-1 p-2 rounded-lg transition ${done ? 'bg-green-500/20 border border-green-500/30' : 'bg-white/5 border border-white/10'}">
+                    <button onclick="window.completeHabit('${h.__backendId}')" class="mt-1 p-2 rounded-lg transition ${done ? 'bg-green-500/20 border border-green-500/30' : 'bg-white/5 border border-white/10'}">
                       <i data-lucide="${done ? 'check-circle' : 'circle'}" style="width: 20px; height: 20px; color: ${done ? '#10b981' : '#9ca3af'};"></i>
                     </button>
                     <div class="flex-1">
@@ -681,7 +678,7 @@
                       </div>
                       <div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, (h.completed / 30) * 100)}%"></div></div>
                     </div>
-                    <button onclick="deleteHabit('${h.__backendId}')" class="p-2 hover:bg-red-500/20 rounded transition border border-red-500/10 mt-1">
+                    <button onclick="window.deleteHabit('${h.__backendId}')" class="p-2 hover:bg-red-500/20 rounded transition border border-red-500/10 mt-1">
                       <i data-lucide="trash-2" style="width: 18px; height: 18px; color: #ef4444;"></i>
                     </button>
                   </div>
@@ -730,5 +727,5 @@
       renderGoals();
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0f5c45534af612',t:'MTc3NDI4OTA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0fa385b7fc2749',t:'MTc3NDI5MjAwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
