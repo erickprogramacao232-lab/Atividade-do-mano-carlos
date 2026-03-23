@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full scroll-smooth">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moovi - Transforme seus Hábitos</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; }
+    body { 
+      font-family: 'Sora', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #0d1425 100%);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4); }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(59, 130, 246, 0.4); }
+
+    .btn-small { padding: 8px 16px; font-size: 12px; }
+
+    .card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 247, 0.08) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover { transform: translateY(-4px); border-color: rgba(59, 130, 246, 0.3); }
+
+    .habit-item {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      border-radius: 14px;
+      padding: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .habit-item.completed {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .recommended-item {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .recommended-item:hover { transform: translateY(-4px); border-color: rgba(245, 158, 11, 0.4); }
+
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fca5a5;
+    }
+
+    .stat-card {
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 18px;
+      padding: 32px;
+      max-width: 500px;
+      width: 90%;
+      animation: fadeInUp 0.4s ease-out;
+      backdrop-filter: blur(20px);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus { outline: none; border-color: rgba(59, 130, 246, 0.5); background: rgba(255, 255, 255, 0.08); }
+
+    select.input-field option { background: #1e293b; color: #fff; }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: rgba(255, 255, 255, 0.5); }
+
+    .progress-bar { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #2563eb); border-radius: 3px; transition: width 0.3s ease; }
+
+    .nav-btn { color: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+
+    .nav-btn:hover { color: rgba(255, 255, 255, 0.9); }
+
+    .active-nav { color: #3b82f6 !important; background: white/10 !important; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full w-full">
+  <!-- Login -->
+  <div id="loginScreen" class="h-full w-full flex items-center justify-center">
+   <div class="w-full max-w-md mx-auto px-6">
+    <div class="text-center mb-12 fade-in-up">
+     <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center font-black text-white text-3xl">
+      M
+     </div>
+     <h1 class="text-4xl font-black mb-2">Moovi</h1>
+     <p class="text-gray-400">Transforme seus hábitos em 7 dias</p>
+    </div>
+    <form id="loginForm" class="space-y-4 fade-in-up" style="animation-delay: 0.1s;">
+     <div>
+      <label class="text-sm font-semibold mb-2 block text-gray-300">Nome</label> <input type="text" id="loginName" class="input-field" placeholder="Seu nome completo" required>
+     </div>
+     <div>
+      <label class="text-sm font-semibold mb-2 block text-gray-300">Email</label> <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
+     </div><button type="submit" class="w-full btn btn-primary mt-6"><i data-lucide="arrow-right" style="width: 18px; height: 18px; margin-right: 8px;"></i> Começar Gratuitamente</button>
+    </form>
+   </div>
+  </div><!-- App -->
+  <div id="app" class="h-full w-full flex flex-col hidden">
+   <!-- Header -->
+   <header class="w-full border-b border-blue-500/10 sticky top-0 z-40 backdrop-blur-xl bg-slate-950/50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center font-black text-white">
+       M
+      </div><span class="text-xl font-black" id="appTitle">moovi</span>
+     </div><!-- Nav Desktop -->
+     <nav class="hidden md:flex items-center gap-2">
+      <button onclick="switchNav('dashboard')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav"> <i data-lucide="home" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Dashboard </button> <button onclick="switchNav('stats')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="bar-chart-3" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Estatísticas </button> <button onclick="switchNav('metas')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="target" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Metas </button> <button onclick="switchNav('config')" class="px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10"> <i data-lucide="settings" style="width: 16px; height: 16px; margin-right: 6px; display: inline;"></i>Config </button>
+     </nav><!-- Mobile Menu --> <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition"> <i data-lucide="menu" style="width: 20px; height: 20px;"></i> </button> <!-- Actions -->
+     <div class="flex items-center gap-2">
+      <button id="addHabitBtn" class="btn btn-primary btn-small hidden sm:flex"><i data-lucide="plus" style="width: 16px; height: 16px; margin-right: 6px;"></i> Novo</button> <button id="addHabitBtnMobile" class="btn btn-primary btn-small sm:hidden p-2"><i data-lucide="plus" style="width: 16px; height: 16px;"></i></button> <button id="logoutBtn" class="p-2 hover:bg-white/10 rounded-lg transition"><i data-lucide="log-out" style="width: 20px; height: 20px;"></i></button>
+     </div>
+    </div><!-- Mobile Nav -->
+    <div id="mobileNav" class="hidden md:hidden border-t border-blue-500/10 bg-slate-900/50 backdrop-blur px-6 py-3 flex flex-col gap-2">
+     <button onclick="switchNav('dashboard')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn active-nav">Dashboard</button> <button onclick="switchNav('stats')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Estatísticas</button> <button onclick="switchNav('metas')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Metas</button> <button onclick="switchNav('config')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-sm transition nav-btn hover:bg-white/10">Configurações</button>
+    </div>
+   </header><!-- Main -->
+   <main class="flex-1 overflow-y-auto w-full">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+     <!-- Dashboard -->
+     <div id="dashboardSection" class="space-y-8">
+      <div class="mb-10">
+       <h1 class="text-4xl font-black mb-2" id="welcomeText">Bem-vindo! 👋</h1>
+       <p class="text-gray-400 text-lg">Acompanhe seus hábitos e conquiste suas metas</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+       <div class="stat-card">
+        <div class="text-2xl font-black text-blue-400" id="totalHabits">
+         0
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Hábitos</p>
+       </div>
+       <div class="stat-card">
+        <div class="text-2xl font-black text-green-400" id="maxStreak">
+         0
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Maior Sequência 🔥</p>
+       </div>
+       <div class="stat-card">
+        <div class="text-2xl font-black text-purple-400" id="completedToday">
+         0
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Hoje</p>
+       </div>
+       <div class="stat-card">
+        <div class="text-2xl font-black text-amber-400" id="completionRate">
+         0%
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Taxa</p>
+       </div>
+      </div>
+      <div class="mb-12">
+       <div class="flex items-center gap-2 mb-6"><i data-lucide="sparkles" style="width: 24px; height: 24px; color: #f59e0b;"></i>
+        <h2 class="text-2xl font-black">Recomendados</h2>
+       </div>
+       <div id="recommendedContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+      </div>
+      <div id="habitSections" class="space-y-12"></div>
+     </div><!-- Stats -->
+     <div id="statsSection" class="hidden space-y-8">
+      <h1 class="text-4xl font-black mb-6">📊 Estatísticas</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+       <div class="card">
+        <h3 class="text-xl font-black mb-4">Por Categoria</h3>
+        <div id="statsCategories" class="space-y-3"></div>
+       </div>
+       <div class="card">
+        <h3 class="text-xl font-black mb-4">Top Hábitos 🏆</h3>
+        <div id="statsTopHabits" class="space-y-3"></div>
+       </div>
+       <div class="card">
+        <h3 class="text-xl font-black mb-4">Histórico</h3>
+        <div id="statsRecent" class="space-y-2 text-sm"></div>
+       </div>
+       <div class="card">
+        <h3 class="text-xl font-black mb-4">Performance</h3>
+        <div id="statsPerformance" class="space-y-3"></div>
+       </div>
+      </div>
+     </div><!-- Goals -->
+     <div id="metasSection" class="hidden space-y-8">
+      <h1 class="text-4xl font-black mb-6">🎯 Suas Metas</h1><button id="newGoalBtn" class="btn btn-primary"><i data-lucide="plus" style="width: 16px; height: 16px; margin-right: 6px;"></i> Nova Meta</button>
+      <div id="goalsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+     </div><!-- Config -->
+     <div id="configSection" class="hidden space-y-8">
+      <h1 class="text-4xl font-black mb-6">⚙️ Configurações</h1>
+      <div class="max-w-2xl space-y-6">
+       <div class="card">
+        <h3 class="text-lg font-black mb-4">👤 Usuário</h3>
+        <div class="space-y-3">
+         <div><label class="text-sm font-semibold text-gray-300">Nome</label>
+          <div class="text-white mt-1" id="configName">
+           —
+          </div>
+         </div>
+         <div><label class="text-sm font-semibold text-gray-300">Email</label>
+          <div class="text-white mt-1" id="configEmail">
+           —
+          </div>
+         </div>
+         <div><label class="text-sm font-semibold text-gray-300">Membro desde</label>
+          <div class="text-white mt-1" id="configMemberSince">
+           —
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="card">
+        <h3 class="text-lg font-black mb-4">⚠️ Zona de Risco</h3><button onclick="openResetModal()" class="w-full btn btn-secondary border-red-500/20 hover:border-red-500/50 text-red-400 hover:text-red-300"> <i data-lucide="trash-2" style="width: 16px; height: 16px; margin-right: 6px;"></i> Deletar Todos </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main>
+  </div><!-- Modals -->
+  <div id="habitModal" class="hidden modal-overlay" onclick="if(event.target===this) closeHabitModal()">
+   <div class="modal">
+    <h2 class="text-2xl font-black mb-6">Novo Hábito</h2>
+    <form id="habitForm" class="space-y-4">
+     <div><label class="text-sm font-semibold mb-2 block">Nome</label><input type="text" id="habitName" class="input-field" placeholder="Ex: Correr 5km..." required>
+     </div>
+     <div class="grid grid-cols-2 gap-4">
+      <div><label class="text-sm font-semibold mb-2 block">Frequência</label><select id="habitFrequency" class="input-field" required><option value="daily">📅 Diário</option><option value="weekly">📆 Semanal</option></select>
+      </div>
+      <div><label class="text-sm font-semibold mb-2 block">Categoria</label><select id="habitCategory" class="input-field" required><option value="health">❤️ Saúde</option><option value="learning">📚 Aprendizado</option><option value="productivity">⚡ Produtividade</option><option value="wellness">🧘 Bem-estar</option><option value="finance">💰 Finanças</option><option value="social">👥 Social</option></select>
+      </div>
+     </div>
+     <div class="flex gap-3 pt-4">
+      <button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar</button> <button type="button" onclick="closeHabitModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <div id="deleteModal" class="hidden modal-overlay" onclick="if(event.target===this) closeDeleteModal()">
+   <div class="modal">
+    <h2 class="text-2xl font-black mb-2">Deletar Hábito?</h2>
+    <p class="text-gray-400 mb-6">Tem certeza? A ação não pode ser desfeita.</p>
+    <div class="flex gap-3">
+     <button onclick="confirmDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    </div>
+   </div>
+  </div>
+  <div id="resetModal" class="hidden modal-overlay" onclick="if(event.target===this) closeResetModal()">
+   <div class="modal">
+    <h2 class="text-2xl font-black mb-2 text-red-400">⚠️ Deletar Tudo?</h2>
+    <p class="text-gray-400 mb-6">Deseja deletar TODOS os hábitos? Irreversível!</p>
+    <div class="flex gap-3">
+     <button onclick="confirmReset()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Sim, Deletar Todos</button> <button onclick="closeResetModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    </div>
+   </div>
+  </div>
+  <div id="goalModal" class="hidden modal-overlay" onclick="if(event.target===this) closeGoalModal()">
+   <div class="modal">
+    <h2 class="text-2xl font-black mb-6">🎯 Nova Meta</h2>
+    <form id="goalForm" class="space-y-4">
+     <div><label class="text-sm font-semibold mb-2 block">Nome da Meta</label><input type="text" id="goalName" class="input-field" placeholder="Ex: Ler 12 livros..." required>
+     </div>
+     <div><label class="text-sm font-semibold mb-2 block">Descrição</label><textarea id="goalDescription" class="input-field" placeholder="Detalhe sua meta..." rows="3" style="resize: none;"></textarea>
+     </div>
+     <div><label class="text-sm font-semibold mb-2 block">Data Alvo</label><input type="date" id="goalDate" class="input-field" required>
+     </div>
+     <div class="flex gap-3 pt-4">
+      <button type="submit" class="flex-1 btn btn-primary"><i data-lucide="check" style="width: 16px; height: 16px; margin-right: 6px;"></i> Criar Meta</button> <button type="button" onclick="closeGoalModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <div id="goalDeleteModal" class="hidden modal-overlay" onclick="if(event.target===this) closeGoalDeleteModal()">
+   <div class="modal">
+    <h2 class="text-2xl font-black mb-2">Deletar Meta?</h2>
+    <p class="text-gray-400 mb-6">Tem certeza que deseja deletar essa meta?</p>
+    <div class="flex gap-3">
+     <button onclick="confirmGoalDelete()" class="flex-1 btn btn-primary bg-red-600 hover:bg-red-700">Deletar</button> <button onclick="closeGoalDeleteModal()" class="flex-1 btn btn-secondary">Cancelar</button>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = { app_title: "moovi", welcome_text: "Bem-vindo de volta! 👋" };
+    let habits = [], habitToDelete = null, currentUser = null, goals = JSON.parse(localStorage.getItem('moovi_goals')) || [], goalToDelete = null;
+
+    const categoryEmojis = { health: '❤️', learning: '📚', productivity: '⚡', wellness: '🧘', finance: '💰', social: '👥' };
+    const categoryLabels = { health: 'Saúde', learning: 'Aprendizado', productivity: 'Produtividade', wellness: 'Bem-estar', finance: 'Finanças', social: 'Social' };
+    const recommendedHabits = [
+      { name: 'Beber 2L de água', category: 'health', frequency: 'daily' },
+      { name: 'Correr 5km', category: 'health', frequency: 'daily' },
+      { name: 'Meditação 10min', category: 'wellness', frequency: 'daily' },
+      { name: 'Estudar 1h', category: 'learning', frequency: 'daily' },
+      { name: 'Ler 30 páginas', category: 'learning', frequency: 'daily' },
+      { name: 'Exercício de força', category: 'health', frequency: 'daily' },
+      { name: 'Journaling', category: 'wellness', frequency: 'daily' },
+      { name: 'Revisar finanças', category: 'finance', frequency: 'weekly' }
+    ];
+
+    const dataHandler = { onDataChanged(data) { habits = data.filter(h => h.userId === currentUser?.id); updateStats(); renderUI(); } };
+
+    async function initializeApp() {
+      const result = await window.dataSdk.init(dataHandler);
+      checkLoginStatus();
+    }
+
+    function checkLoginStatus() {
+      const savedUser = localStorage.getItem('moovi_user');
+      if (savedUser) { currentUser = JSON.parse(savedUser); showApp(); }
+      else showLogin();
+    }
+
+    function showLogin() { document.getElementById('loginScreen').classList.remove('hidden'); document.getElementById('app').classList.add('hidden'); }
+
+    function showApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      document.getElementById('welcomeText').textContent = `Bem-vindo, ${currentUser.name}! 👋`;
+      updateConfigDisplay();
+      lucide.createIcons();
+    }
+
+    function switchNav(section) {
+      document.querySelectorAll('[onclick*="switchNav"]').forEach(b => b.classList.remove('active-nav'));
+      event.target.closest('button').classList.add('active-nav');
+      
+      document.querySelectorAll('[id$="Section"]').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`${section}Section`).classList.remove('hidden');
+      document.getElementById('mobileNav').classList.add('hidden');
+
+      if (section === 'stats') renderStats();
+      if (section === 'metas') renderGoals();
+      lucide.createIcons();
+    }
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('hidden');
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('loginName').value.trim();
+      const email = document.getElementById('loginEmail').value.trim();
+      if (!name || !email) return;
+
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader" style="width: 18px; height: 18px; margin-right: 8px;"></i> Entrando...';
+
+      setTimeout(() => {
+        currentUser = { id: `user_${Date.now()}`, name, email, joinedAt: new Date().toISOString() };
+        localStorage.setItem('moovi_user', JSON.stringify(currentUser));
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="arrow-right" style="width: 18px; height: 18px; margin-right: 8px;"></i> Começar Gratuitamente';
+        showApp();
+      }, 600);
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      currentUser = null;
+      localStorage.removeItem('moovi_user');
+      document.getElementById('loginForm').reset();
+      document.getElementById('habitForm').reset();
+      habits = [];
+      showLogin();
+    });
+
+    [document.getElementById('addHabitBtn'), document.getElementById('addHabitBtnMobile')].forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('habitModal').classList.remove('hidden');
+        document.getElementById('habitName').focus();
+      });
+    });
+
+    document.getElementById('habitForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (habits.length >= 999) return;
+
+      const name = document.getElementById('habitName').value.trim();
+      const frequency = document.getElementById('habitFrequency').value;
+      const category = document.getElementById('habitCategory').value;
+      if (!name) return;
+
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.disabled = true;
+
+      const newHabit = { id: Date.now().toString(), name, category, frequency, completed: 0, streak: 0, lastCompleted: '', createdAt: new Date().toISOString(), userId: currentUser.id };
+      await window.dataSdk.create(newHabit);
+
+      btn.disabled = false;
+      closeHabitModal();
+      document.getElementById('habitForm').reset();
+    });
+
+    function closeHabitModal() { document.getElementById('habitModal').classList.add('hidden'); document.getElementById('habitForm').reset(); }
+    function openDeleteModal(backendId) { habitToDelete = backendId; document.getElementById('deleteModal').classList.remove('hidden'); }
+    function closeDeleteModal() { document.getElementById('deleteModal').classList.add('hidden'); habitToDelete = null; }
+    function openResetModal() { document.getElementById('resetModal').classList.remove('hidden'); }
+    function closeResetModal() { document.getElementById('resetModal').classList.add('hidden'); }
+
+    window.completeHabit = async function(backendId) {
+      const habit = habits.find(h => h.__backendId === backendId);
+      if (!habit) return;
+
+      const today = new Date().toISOString().split('T')[0];
+      const lastCompleted = habit.lastCompleted?.split('T')[0];
+      if (lastCompleted === today) return;
+
+      habit.completed++;
+      habit.streak = lastCompleted === new Date(new Date().getTime() - 86400000).toISOString().split('T')[0] ? habit.streak + 1 : 1;
+      habit.lastCompleted = new Date().toISOString();
+      await window.dataSdk.update(habit);
+    };
+
+    window.deleteHabit = function(backendId) { openDeleteModal(backendId); };
+
+    async function confirmDelete() {
+      if (habitToDelete) {
+        const habit = habits.find(h => h.__backendId === habitToDelete);
+        if (habit) await window.dataSdk.delete(habit);
+        closeDeleteModal();
+      }
+    }
+
+    async function confirmReset() {
+      for (const habit of habits) await window.dataSdk.delete(habit);
+      closeResetModal();
+    }
+
+    window.addRecommendedHabit = async function(name, category, frequency) {
+      if (habits.length >= 999) return;
+      const newHabit = { id: Date.now().toString(), name, category, frequency, completed: 0, streak: 0, lastCompleted: '', createdAt: new Date().toISOString(), userId: currentUser.id };
+      await window.dataSdk.create(newHabit);
+    };
+
+    function updateStats() {
+      document.getElementById('totalHabits').textContent = habits.length;
+      const maxStreak = habits.length ? Math.max(...habits.map(h => h.streak || 0)) : 0;
+      document.getElementById('maxStreak').textContent = maxStreak;
+      const today = new Date().toISOString().split('T')[0];
+      const completed = habits.filter(h => h.lastCompleted?.split('T')[0] === today).length;
+      document.getElementById('completedToday').textContent = completed;
+      const rate = habits.length > 0 ? Math.round((habits.reduce((sum, h) => sum + h.completed, 0) / (habits.length * 7)) * 100) : 0;
+      document.getElementById('completionRate').textContent = Math.min(100, rate) + '%';
+    }
+
+    function renderStats() {
+      const categoryStats = {};
+      habits.forEach(h => { categoryStats[h.category] = (categoryStats[h.category] || 0) + 1; });
+      document.getElementById('statsCategories').innerHTML = Object.entries(categoryStats).map(([cat, count]) => `<div class="flex justify-between text-sm"><span>${categoryEmojis[cat]} ${categoryLabels[cat]}</span><strong>${count}</strong></div>`).join('');
+
+      const topHabits = [...habits].sort((a, b) => b.streak - a.streak).slice(0, 5);
+      document.getElementById('statsTopHabits').innerHTML = topHabits.length ? topHabits.map(h => `<div class="flex justify-between text-sm"><span>${h.name}</span><span class="streak-badge">🔥 ${h.streak}</span></div>`).join('') : '<p class="text-gray-400">Sem dados</p>';
+
+      document.getElementById('statsRecent').innerHTML = habits.slice(-3).reverse().map(h => `<div class="text-xs text-gray-400">✓ ${h.name} - ${new Date(h.createdAt).toLocaleDateString('pt-BR')}</div>`).join('') || '<p class="text-gray-400">Sem histórico</p>';
+
+      const avgCompletion = habits.length ? Math.round(habits.reduce((sum, h) => sum + h.completed, 0) / habits.length) : 0;
+      document.getElementById('statsPerformance').innerHTML = `<div class="text-sm"><span>Média:</span><strong> ${avgCompletion}</strong></div>`;
+
+      lucide.createIcons();
+    }
+
+    function renderGoals() {
+      const container = document.getElementById('goalsContainer');
+      if (goals.length === 0) {
+        container.innerHTML = '<div class="col-span-full empty-state"><div style="font-size: 48px; margin-bottom: 16px;">🎯</div><p class="text-lg font-semibold">Nenhuma meta criada</p><p class="text-sm text-gray-400 mt-2">Comece criando sua primeira meta!</p></div>';
+        return;
+      }
+
+      container.innerHTML = goals.map((goal, idx) => {
+        const targetDate = new Date(goal.date);
+        const today = new Date();
+        const daysLeft = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
+        const isExpired = daysLeft < 0;
+
+        return `
+          <div class="card">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="font-black text-lg">${goal.name}</h3>
+                <p class="text-xs text-gray-400 mt-1">${goal.description || 'Sem descrição'}</p>
+              </div>
+              <button onclick="openGoalDeleteModal(${idx})" class="p-2 hover:bg-red-500/20 rounded transition">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px; color: #ef4444;"></i>
+              </button>
+            </div>
+            <div class="mb-4">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold">Progresso</span>
+                <span class="text-sm font-black text-blue-400">${goal.progress || 0}%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width: ${goal.progress || 0}%"></div></div>
+            </div>
+            <div class="flex gap-2 mb-3">
+              <input type="range" min="0" max="100" value="${goal.progress || 0}" 
+                onchange="updateGoalProgress(${idx}, this.value)" class="flex-1 cursor-pointer">
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400">📅 ${new Date(goal.date).toLocaleDateString('pt-BR')}</span>
+              <span class="px-2 py-1 rounded ${isExpired ? 'bg-red-500/20 text-red-300' : 'bg-blue-500/20 text-blue-300'}">
+                ${isExpired ? '❌ Expirada' : `⏱️ ${Math.abs(daysLeft)} dias`}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    window.updateGoalProgress = function(idx, value) {
+      goals[idx].progress = parseInt(value);
+      localStorage.setItem('moovi_goals', JSON.stringify(goals));
+      renderGoals();
+    };
+
+    window.openGoalDeleteModal = function(idx) {
+      goalToDelete = idx;
+      document.getElementById('goalDeleteModal').classList.remove('hidden');
+    };
+
+    function closeGoalDeleteModal() {
+      document.getElementById('goalDeleteModal').classList.add('hidden');
+      goalToDelete = null;
+    }
+
+    window.confirmGoalDelete = function() {
+      if (goalToDelete !== null) {
+        goals.splice(goalToDelete, 1);
+        localStorage.setItem('moovi_goals', JSON.stringify(goals));
+        closeGoalDeleteModal();
+        renderGoals();
+      }
+    };
+
+    function closeGoalModal() {
+      document.getElementById('goalModal').classList.add('hidden');
+      document.getElementById('goalForm').reset();
+    }
+
+    function updateConfigDisplay() {
+      document.getElementById('configName').textContent = currentUser.name;
+      document.getElementById('configEmail').textContent = currentUser.email;
+      document.getElementById('configMemberSince').textContent = new Date(currentUser.joinedAt).toLocaleDateString('pt-BR');
+    }
+
+    function renderRecommended() {
+      const container = document.getElementById('recommendedContainer');
+      const existingNames = new Set(habits.map(h => h.name));
+      const available = recommendedHabits.filter(r => !existingNames.has(r.name)).slice(0, 8);
+
+      if (available.length === 0) {
+        container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">Todos adicionados! 🎉</div>';
+        return;
+      }
+
+      container.innerHTML = available.map((rec, idx) => `
+        <div class="recommended-item fade-in-up" style="animation-delay: ${idx * 0.05}s;" onclick="addRecommendedHabit('${rec.name}', '${rec.category}', '${rec.frequency}')">
+          <div class="text-2xl mb-2">${categoryEmojis[rec.category]}</div>
+          <h4 class="font-black text-sm mb-2">${rec.name}</h4>
+          <div class="text-xs text-amber-300/70">+ Adicionar</div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderHabits() {
+      const container = document.getElementById('habitSections');
+      if (habits.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 16px;">🎯</div><p class="text-lg font-semibold">Nenhum hábito criado</p></div>';
+        return;
+      }
+
+      const grouped = {};
+      habits.forEach(h => { if (!grouped[h.category]) grouped[h.category] = []; grouped[h.category].push(h); });
+
+      container.innerHTML = Object.entries(grouped).map(([cat, items]) => `
+        <div class="fade-in-up">
+          <div class="flex items-center gap-2 mb-4"><span class="text-2xl">${categoryEmojis[cat]}</span><h3 class="text-xl font-black">${categoryLabels[cat]}</h3><span class="text-sm text-gray-400 ml-auto">${items.length}</span></div>
+          <div class="space-y-3">
+            ${items.map(h => {
+              const today = new Date().toISOString().split('T')[0];
+              const done = h.lastCompleted?.split('T')[0] === today;
+              return `
+                <div class="habit-item ${done ? 'completed' : ''}">
+                  <div class="flex items-start gap-4">
+                    <button onclick="completeHabit('${h.__backendId}')" class="mt-1 p-2 rounded-lg transition ${done ? 'bg-green-500/20 border border-green-500/30' : 'bg-white/5 border border-white/10'}">
+                      <i data-lucide="${done ? 'check-circle' : 'circle'}" style="width: 20px; height: 20px; color: ${done ? '#10b981' : '#9ca3af'};"></i>
+                    </button>
+                    <div class="flex-1">
+                      <h4 class="font-black mb-1">${h.name}</h4>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-400">${h.completed}x</span>
+                        ${h.streak > 0 ? `<span class="streak-badge">🔥 ${h.streak}</span>` : ''}
+                      </div>
+                      <div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, (h.completed / 30) * 100)}%"></div></div>
+                    </div>
+                    <button onclick="deleteHabit('${h.__backendId}')" class="p-2 hover:bg-red-500/20 rounded transition border border-red-500/10 mt-1">
+                      <i data-lucide="trash-2" style="width: 18px; height: 18px; color: #ef4444;"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderUI() { renderRecommended(); renderHabits(); }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
+          document.getElementById('welcomeText').textContent = config.welcome_text || defaultConfig.welcome_text;
+        },
+        mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
+        mapToEditPanelValues: (config) => new Map([['app_title', config.app_title || defaultConfig.app_title], ['welcome_text', config.welcome_text || defaultConfig.welcome_text]])
+      });
+    }
+
+    initializeApp();
+    lucide.createIcons();
+
+    document.getElementById('newGoalBtn')?.addEventListener('click', () => {
+      document.getElementById('goalModal').classList.remove('hidden');
+      document.getElementById('goalName').focus();
+    });
+
+    document.getElementById('goalForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('goalName').value.trim();
+      const description = document.getElementById('goalDescription').value.trim();
+      const date = document.getElementById('goalDate').value;
+
+      if (!name || !date) return;
+
+      goals.push({ name, description, date, progress: 0 });
+      localStorage.setItem('moovi_goals', JSON.stringify(goals));
+      closeGoalModal();
+      renderGoals();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0f5c45534af612',t:'MTc3NDI4OTA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
